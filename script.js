@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const emailError = document.getElementById('emailError');
     const passwordError = document.getElementById('passwordError');
     const confirmPasswordError = document.getElementById('confirmPasswordError');
+    const showHideButton = document.getElementById('show-hide')
 
     loginForm.addEventListener('submit', function(event)){
         event.preventDefault();
@@ -31,6 +32,16 @@ document.addEventListener('DOMContentLoaded', function(){
         clearError(confirmPasswordError)
      })
 
+     showHideButton.addEventListener('click', function(){
+         if(passwordInput.type == 'password'){
+            passwordInput.type = 'text' //cambio password por text
+            confirmPasswordInput.type = 'text'
+         }else{
+            passwordInput.type = 'password'
+            confirmPasswordInput.type = 'password'
+         }
+     })
+
      function validateForm(){
 
       const isValidEmail = validateEmail() //bool
@@ -38,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function(){
       const passwordMatch = validatePasswordMatch()
 
       if(isValidEmail && isValidPassword && passwordMatch){
-         //guardar email en LocalStorage y generar un Json en consola
+         saveToLocalStorage()
          alert('Registro con éxito')
       }
      }
@@ -83,6 +94,20 @@ document.addEventListener('DOMContentLoaded', function(){
      function clearError(errorElement, message){
         errorElement.innerHTML = '';
         errorElement.style.display = 'none';
+     }
+
+     function saveToLocalStorage(){
+      const emailValue = emailInput.value.trim();
+      localStorage.setItem('email', emailValue)
+      const body = bodyBuilderJSON()
+      console.log(body)
+     }
+
+     function bodyBuilderJSON(){
+      return {
+         "email": emailInput.value,
+         "password": passwordInput.value
+      }
      }
      
 })
