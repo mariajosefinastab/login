@@ -16,23 +16,31 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     emailInput.addEventListener('blur', function(){//blur es cuando se sale del formulario
-        //Tpo do: agregar método que valide email
+        validateEmail()
      })
 
      emailInput.addEventListener('change', function(){
-        //To do: agregar método que limpie el error marcado anteriormente
+        clearError(emailError)
      })
 
      passwordInput.addEventListener('change', function(){
-        //To do: agregar método que limpie el error marcado anteriormente
+        clearError(passwordError)
      })
 
      confirmPasswordInput.addEventListener('change', function(){
-        //To do: agregar método que limpie el error marcado anteriormente
+        clearError(confirmPasswordError)
      })
 
      function validateForm(){
 
+      const isValidEmail = validateEmail() //bool
+      const isValidPassword = validatePassword()
+      const passwordMatch = validatePasswordMatch()
+
+      if(isValidEmail && isValidPassword && passwordMatch){
+         //guardar email en LocalStorage y generar un Json en consola
+         alert('Registro con éxito')
+      }
      }
 
      function validateEmail(){
@@ -40,17 +48,18 @@ document.addEventListener('DOMContentLoaded', function(){
         const emailValue = emailInput.ariaValueMax.trim(); //trim elimina espacios vacios al comienzo y final del input
 
         if(!emailRegex.test(emailValue)){
-            //To do: mostrar error
+            showError(emailError, 'Ingresa un email válido')
             return false;
         }
         return true;
      }
 
+     
      function validatePassword(){
         const passwordValue = passwordInput.value.trim();
 
         if(passwordValue.lenght < 6){
-            //To do: mostrar error
+            showError(passwordError, 'Ingresa una contraseña de al menos 6 caracteres')
             return false;
         }
         return true;
@@ -60,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function(){
         const passwordValue = passwordInput.value.trim();
 
         if(passwordValue != confirmPasswordValue){
-            //To do: mostrar error
+            showError(confirmPasswordError, 'Las contraseñas no coinciden')
             return false;
         }
         return true;
